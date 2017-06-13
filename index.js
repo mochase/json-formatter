@@ -80,7 +80,7 @@ function isPureArray(arr) {
         return false
     }
     return arr.every((item) => {
-        return !isArray(item) && (!(item instanceof Object))
+        return !isArray(item) && !(item instanceof Object)
     })
 }
 
@@ -101,4 +101,3 @@ module.exports = function parseJson(formdata) {
     }
     return tmp
 }
-console.log(isPureArray([1, 2, 3, 4]))
