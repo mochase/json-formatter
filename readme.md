@@ -1,6 +1,6 @@
 ## 格式化输出json对象
 
-##输出形式
+### 输出形式
 ```
 [ { text: '{', indent: 0 },
   { text: 'a:1', indent: 4 },
@@ -24,7 +24,7 @@
   { text: '}', indent: 0 } ]
 ```
 
-##使用
+### 使用
 ```
 var parseJson = require('./index.js')
 var output = parseJson(someJsonData)
@@ -32,5 +32,5 @@ var output = parseJson(someJsonData)
 参见demo.js
 ```
 
-##注意
+### 注意
 需要ES6的支持
