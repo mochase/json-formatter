@@ -9,20 +9,20 @@ function parseObject(obj, currentIndent) {
     for (let key in obj) {
         if (isArray(obj[key])) {
             if (isPureArray(obj[key])) {
-                tmp.push({output: key + ':' + parsePureArray(obj[key]), indent})
+                tmp.push({text: key + ':' + parsePureArray(obj[key]), indent})
             } else {
-                tmp.push({output: key + ':', indent})
-                tmp.push({ouput: '[', indent})
+                tmp.push({text: key + ':', indent})
+                tmp.push({text: '[', indent})
                 tmp = tmp.concat(parseArray(obj[key], indent))
-                tmp.push({output: ']', indent})
+                tmp.push({text: ']', indent})
             }
         } else if (obj[key] instanceof Object) {
-            tmp.push({output: key + ': {', indent})
+            tmp.push({text: key + ': {', indent})
             tmp = tmp.concat(parseObject(obj[key], indent))
-            tmp.push({output: '}', indent})
+            tmp.push({text: '}', indent})
         } else {
             var str = key + ':' + obj[key]
-            tmp.push({output: str, indent})
+            tmp.push({text: str, indent})
         }
     }
     return tmp
@@ -38,18 +38,18 @@ function parseArray(arr, currentIndent) {
     arr.forEach((item) => {
         if (isArray(item)) {
             if (isPureArray(item)) {
-                tmp.push({output: parsePureArray(item), indent})
+                tmp.push({text: parsePureArray(item), indent})
             } else {
-                tmp.push({output: '[', indent})
+                tmp.push({text: '[', indent})
                 tmp = tmp.concat(parseArray(item, indent))
-                tmp.push({output: ']', indent})
+                tmp.push({text: ']', indent})
             } 
         } else if (item instanceof Object) {
-            tmp.push({output: '{', indent})
+            tmp.push({text: '{', indent})
             tmp = tmp.concat(parseObject(item, indent))
-            tmp.push({output:'}', indent})
+            tmp.push({text:'}', indent})
         } else {
-            tmp.push({output: item, indent})
+            tmp.push({text: item, indent})
         }
     });
     return tmp
@@ -91,13 +91,13 @@ function isArray(o) {
 module.exports = function parseJson(formdata) {
     var tmp = []
     if (isArray(formdata)) {
-        tmp.push({output: '[', indent: 0})
+        tmp.push({text: '[', indent: 0})
         tmp.concat(parseArray(formdata, 0))
-        tmp.push({output: ']', indent: 0})
+        tmp.push({text: ']', indent: 0})
     } if (formdata instanceof Object) {
-        tmp.push({output: '{', indent: 0})
+        tmp.push({text: '{', indent: 0})
         tmp = tmp.concat(parseObject(formdata, 0))
-        tmp.push({output: '}', indent: 0})
+        tmp.push({text: '}', indent: 0})
     }
     return tmp
 }
