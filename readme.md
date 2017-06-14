@@ -35,6 +35,7 @@ let output = parseJson(someJsonData)
 ```
 p(v-for="value of dataCollection", :style="{paddingLeft: value.indent * 8 +'px'}") {{value.text}}
 ```
+![demo.png](./demo.png)
 
 ### 注意
 需要ES6的支持
