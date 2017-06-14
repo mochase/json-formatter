@@ -143,7 +143,7 @@ module.exports = function parseJson(formdata) {
         tmp.push({ text: '[', indent: 0 })
         tmp.concat(parseArray(formdata, 0))
         tmp.push({ text: ']', indent: 0 })
-    } if (formdata instanceof Object) {
+    } else if (formdata instanceof Object) {
         tmp.push({ text: '{', indent: 0 })
         tmp = tmp.concat(parseObject(formdata, 0))
         tmp.push({ text: '}', indent: 0 })
