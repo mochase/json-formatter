@@ -1,7 +1,7 @@
 /**
  * 不关心外部"{}"
- * @param {object} obj 
- * @param {number} currentIndent 
+ * @param {object} obj
+ * @param {number} currentIndent
  */
 function parseObject(obj, currentIndent) {
     let tmp = []
@@ -10,9 +10,9 @@ function parseObject(obj, currentIndent) {
     for (let key in obj) {
         if (i < Object.keys(obj).length - 1) {
             i++
-            //need comma
+            // need comma
             if (isArray(obj[key])) {
-                //item 为数组
+                // item 为数组
                 if (isPureArray(obj[key])) {
                     tmp.push({ text: key + ': ' + parsePureArray(obj[key]) + ',', indent })
                 } else {
@@ -22,13 +22,13 @@ function parseObject(obj, currentIndent) {
                     tmp.push({ text: '],', indent })
                 }
             } else if (obj[key] instanceof Object) {
-                //item 为对象
+                // item 为对象
                 tmp.push({ text: key + ': {', indent })
                 tmp = tmp.concat(parseObject(obj[key], indent))
                 tmp.push({ text: '},', indent })
             } else {
                 // item 为普通value
-                var str = key + ': ' + obj[key] + ','
+                let str = key + ': ' + obj[key] + ','
                 tmp.push({ text: str, indent })
             }
         } else {
@@ -46,28 +46,27 @@ function parseObject(obj, currentIndent) {
                 tmp = tmp.concat(parseObject(obj[key], indent))
                 tmp.push({ text: '}', indent })
             } else {
-                var str = key + ': ' + obj[key]
+                let str = key + ': ' + obj[key]
                 tmp.push({ text: str, indent })
             }
         }
-
     }
     return tmp
 }
 /**
  * 不关心外部"[]"
  * 嵌套数组的解析
- * @param {array} arr 
- * @param {number} currentIndent 
+ * @param {array} arr
+ * @param {number} currentIndent
  */
 function parseArray(arr, currentIndent) {
     let indent = currentIndent + 4
     let tmp = []
     arr.forEach((item, index, arr) => {
         if (index < arr.length - 1) {
-            //need comma
+            // need comma
             if (isArray(item)) {
-                //item 是数组
+                // item 是数组
                 if (isPureArray(item)) {
                     tmp.push({ text: parsePureArray(item) + ',', indent })
                 } else {
@@ -76,7 +75,7 @@ function parseArray(arr, currentIndent) {
                     tmp.push({ text: '],', indent })
                 }
             } else if (item instanceof Object) {
-                //item 是对象
+                // item 是对象
                 tmp.push({ text: '{', indent })
                 tmp = tmp.concat(parseObject(item, indent))
                 tmp.push({ text: '},', indent })
@@ -101,8 +100,7 @@ function parseArray(arr, currentIndent) {
                 tmp.push({ text: item, indent })
             }
         }
-
-    });
+    })
     return tmp
 }
 
