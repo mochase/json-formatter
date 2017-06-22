@@ -14,39 +14,49 @@ function parseObject(obj, currentIndent) {
             if (isArray(obj[key])) {
                 // item 为数组
                 if (isPureArray(obj[key])) {
-                    tmp.push({ text: key + ': ' + parsePureArray(obj[key]) + ',', indent })
+                    tmp.push({ text: `"${key}": ${parsePureArray(obj[key])},`, indent})
                 } else {
-                    tmp.push({ text: key + ': ', indent })
+                    tmp.push({ text: `"${key}": `, indent })
                     tmp.push({ text: '[', indent })
                     tmp = tmp.concat(parseArray(obj[key], indent))
                     tmp.push({ text: '],', indent })
                 }
             } else if (obj[key] instanceof Object) {
                 // item 为对象
-                tmp.push({ text: key + ': {', indent })
+                tmp.push({ text: `"${key}": {`, indent })
                 tmp = tmp.concat(parseObject(obj[key], indent))
                 tmp.push({ text: '},', indent })
             } else {
                 // item 为普通value
-                let str = key + ': ' + obj[key] + ','
+                let str = ''
+                if (typeof obj[key] === 'string') {
+                    str = `"${key}": "${obj[key]}",`
+                } else {
+                    str = `"${key}": ${obj[key]},`
+                }
                 tmp.push({ text: str, indent })
             }
         } else {
             if (isArray(obj[key])) {
                 if (isPureArray(obj[key])) {
-                    tmp.push({ text: key + ': ' + parsePureArray(obj[key]), indent })
+                    tmp.push({ text: `"${key}": ${parsePureArray(obj[key])}`, indent })
                 } else {
-                    tmp.push({ text: key + ': ', indent })
+                    tmp.push({ text: `"${key}": `, indent })
                     tmp.push({ text: '[', indent })
                     tmp = tmp.concat(parseArray(obj[key], indent))
                     tmp.push({ text: ']', indent })
                 }
             } else if (obj[key] instanceof Object) {
-                tmp.push({ text: key + ': {', indent })
+                tmp.push({ text: `"${key}": {`, indent })
                 tmp = tmp.concat(parseObject(obj[key], indent))
                 tmp.push({ text: '}', indent })
             } else {
-                let str = key + ': ' + obj[key]
+                let str = ''
+                if (typeof obj[key] === 'string') {
+                    str = `"${key}": "${obj[key]}"`
+                } else {
+                    str = `"${key}": ${obj[key]}`
+                }
                 tmp.push({ text: str, indent })
             }
         }
@@ -81,7 +91,11 @@ function parseArray(arr, currentIndent) {
                 tmp.push({ text: '},', indent })
             } else {
                 // item 为简单value
-                tmp.push({ text: item + ',', indent })
+                let i = item
+                if (typeof item === 'string') {
+                    i = `"${item}",`
+                }
+                tmp.push({ text: i, indent })
             }
         } else {
             if (isArray(item)) {
@@ -97,7 +111,11 @@ function parseArray(arr, currentIndent) {
                 tmp = tmp.concat(parseObject(item, indent))
                 tmp.push({ text: '}', indent })
             } else {
-                tmp.push({ text: item, indent })
+                let i = item
+                if (typeof item === 'string') {
+                    i = `"${item}"`
+                }
+                tmp.push({ text: i, indent })
             }
         }
     })
@@ -111,10 +129,14 @@ function parseArray(arr, currentIndent) {
 function parsePureArray(arr) {
     let t = '['
     arr.forEach((item, index) => {
+        let i = item
+        if (typeof item === 'string') {
+            i = `"${item}"`
+        }
         if (index !== 0) {
-            t += ', ' + item
+            t += ', ' + i
         } else {
-            t += item
+            t += i
         }
     })
     t += ']'
