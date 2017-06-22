@@ -14,7 +14,7 @@ function parseObject(obj, currentIndent) {
             if (isArray(obj[key])) {
                 // item 为数组
                 if (isPureArray(obj[key])) {
-                    tmp.push({ text: `"${key}": ${parsePureArray(obj[key])},`, indent})
+                    tmp.push({ text: `"${key}": ${parsePureArray(obj[key])},`, indent })
                 } else {
                     tmp.push({ text: `"${key}": [`, indent })
                     tmp = tmp.concat(parseArray(obj[key], indent))
@@ -92,6 +92,8 @@ function parseArray(arr, currentIndent) {
                 let i = item
                 if (typeof item === 'string') {
                     i = `"${item}",`
+                } else {
+                    i = `${item},`
                 }
                 tmp.push({ text: i, indent })
             }
