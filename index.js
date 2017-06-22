@@ -16,8 +16,7 @@ function parseObject(obj, currentIndent) {
                 if (isPureArray(obj[key])) {
                     tmp.push({ text: `"${key}": ${parsePureArray(obj[key])},`, indent})
                 } else {
-                    tmp.push({ text: `"${key}": `, indent })
-                    tmp.push({ text: '[', indent })
+                    tmp.push({ text: `"${key}": [`, indent })
                     tmp = tmp.concat(parseArray(obj[key], indent))
                     tmp.push({ text: '],', indent })
                 }
@@ -41,8 +40,7 @@ function parseObject(obj, currentIndent) {
                 if (isPureArray(obj[key])) {
                     tmp.push({ text: `"${key}": ${parsePureArray(obj[key])}`, indent })
                 } else {
-                    tmp.push({ text: `"${key}": `, indent })
-                    tmp.push({ text: '[', indent })
+                    tmp.push({ text: `"${key}": [`, indent })
                     tmp = tmp.concat(parseArray(obj[key], indent))
                     tmp.push({ text: ']', indent })
                 }
